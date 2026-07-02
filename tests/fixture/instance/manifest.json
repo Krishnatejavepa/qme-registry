@@ -1,0 +1,16 @@
+{
+  "manifest_for": "fixture_self_test",
+  "generator": "generator/compute_summary.py",
+  "regeneration_command": "cd <instance-dir> && python3 generator/compute_summary.py",
+  "sha256": {
+    "artifact/summary.json": "d0b6cc406139d65eb9d7aaa2292fd3123a4bf532a0402f843b5a3d53496c7777",
+    "generator/compute_summary.py": "5430cad6199816ffe4d97d4d01c0644c70508b803a91aa7b5894425c9e8f400c",
+    "inputs/values.csv": "b6948b062a3cd743b6ce7191702d6ed135a5542ca492322b883f590cf0274bda",
+    "instance.json": "20bb730384016fb96e33b61846cf815231baf14a754d404de83416f9d1b53de4"
+  },
+  "preregistration": null,
+  "captured_environment": {
+    "python": "3.13.13",
+    "platform": "macOS-26.5-arm64-arm-64bit-Mach-O"
+  }
+}

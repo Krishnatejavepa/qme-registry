@@ -1,0 +1,9 @@
+{
+  "instance_id": "fixture_self_test",
+  "kind": "machinery_self_test",
+  "note": "Synthetic fixture exercising the manifest and regeneration machinery. Not a scientific artifact, not an audit, not a registered instance. The numbers are arbitrary.",
+  "artifact": "artifact/summary.json",
+  "generator": "generator/compute_summary.py",
+  "inputs": ["inputs/values.csv"],
+  "preregistration": null
+}

@@ -1,0 +1,13 @@
+name: verify
+on:
+  push:
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify every registered instance (fresh clone)
+        run: bash scripts/verify.sh
+      - name: Self-test the machinery (incl. tamper detection)
+        run: bash scripts/verify.sh --self-test
