@@ -1,0 +1,125 @@
+{
+  "audited_claim_quote": "BatteryFormer accurately reproduces the experimental average voltages for seven representative lithium-ion cathode materials",
+  "caveats_that_travel": [
+    "This verdict concerns absolute average voltages on three anchored couples only; the model's in-frame (reference-scale) performance and its other predictions are NOT tested here.",
+    "QME's own local DFT bench FAILED its pre-registered single-offset calibration gate (sd 0.31 V, n=4; source: d1_corrected_offsets.json in github.com/Krishnatejavepa/qme-paper-validation, regenerable) and contributes nothing to this audit; the comparison is paper-vs-experimental-anchor only, and QME voltage language remains ranking-only.",
+    "On the compounds where model, database reference, and experiment could previously be compared (QME's Na-cathode study, arXiv:2606.23725), Materials Project PBE+U reference voltages sat about 0.54 V below experiment; this audit's subject trained on MP Battery Explorer labels, and the anchored-subset result here neither confirms nor refutes that systematic for its full training domain.",
+    "The LiCoO2 anchor carries the pre-flagged range-match caveat: the paper does not define its (de)lithiation range, so a definitional mismatch can neither be demonstrated nor ruled out from its text.",
+    "The three transcribed predictions are printed figure labels (u_v = 0.005 V); the paper's SI Table S7 was not retrievable by automated means, and author-provided values supersede these transcriptions under the registered uncertainty rule."
+  ],
+  "datapoints": [
+    {
+      "abs_delta_v": 0.09,
+      "anchor_source": "Padhi, Nanjundaswamy, Goodenough, J. Electrochem. Soc. 144, 1188 (1997)",
+      "compound": "LiFePO4",
+      "couple": "LiFePO4 -> FePO4 (olivine, Fe2+/3+)",
+      "datapoint_id": "dp1",
+      "delta_v": 0.09,
+      "status": "included",
+      "u_v": 0.005,
+      "v_exp_anchor": 3.45,
+      "v_predicted": 3.54
+    },
+    {
+      "abs_delta_v": 0.18,
+      "anchor_source": "standard 3.9-4.1 V plateau window; range-match caveat pre-flagged in registration",
+      "compound": "LiCoO2",
+      "couple": "LiCoO2 -> Li0.5CoO2 (layered, Co3+/4+)",
+      "datapoint_id": "dp2",
+      "delta_v": -0.18,
+      "status": "included",
+      "u_v": 0.005,
+      "v_exp_anchor": 4.0,
+      "v_predicted": 3.82
+    },
+    {
+      "abs_delta_v": 0.13,
+      "anchor_source": "Thackeray et al., Mater. Res. Bull. 18, 461 (1983); Ohzuku et al., JES 137, 769 (1990); average of the two plateaus",
+      "compound": "LiMn2O4",
+      "couple": "LiMn2O4 -> lambda-MnO2 (spinel, Mn3+/4+)",
+      "datapoint_id": "dp3",
+      "delta_v": 0.13,
+      "status": "included",
+      "u_v": 0.005,
+      "v_exp_anchor": 4.05,
+      "v_predicted": 4.18
+    }
+  ],
+  "exclusions": {
+    "excluded_datapoints": [],
+    "sensitivity_analysis": "no datapoint excluded, so verdict-with-and-without does not apply",
+    "x1_range_mismatch": {
+      "basis": "The paper's methods text does not define the (de)lithiation range for its average-voltage labels (it states only that training data came from the Materials Project Battery Explorer with a -1 to 7 V selection window). The registered x1 rule requires a mismatch demonstrable from the paper's methods text BEFORE value comparison; silence does not demonstrate a mismatch, so no datapoint is excluded. The LiCoO2 pre-flag is retained as a disclosed caveat in the verdict artifact.",
+      "fired": false,
+      "quote": "All training data used in this work were sourced from the Battery Explorer module provided by the Materials Project, with the selected voltage range for cathode materials between -1 to 7 V."
+    },
+    "x2_unreadable_value": {
+      "basis": "all three anchored values are printed labels, u_v = 0.005 V, far below the 0.10 V bar",
+      "fired": false
+    }
+  },
+  "instance_id": "external_audit_001",
+  "kind": "external_audit",
+  "negative_assertions": [
+    "No claim that the model is refuted as a model class.",
+    "No claim of author misconduct or error; validating against computed references is field-standard practice.",
+    "No absolute-voltage claims by QME's own bench.",
+    "No novelty claims.",
+    "A FAIL would be published with the same standing as a PASS; this verdict is published under the registered verdict policy either way."
+  ],
+  "preregistration": {
+    "commit": "ec8a2d5",
+    "document": "PREREGISTRATION.md",
+    "registered_before_any_comparison": true,
+    "registered_utc": "2026-07-02T21:24:54Z"
+  },
+  "primary_metric": {
+    "definition": "MAE = mean |V_predicted(paper) - V_exp(Tier-A anchor)| over included datapoints",
+    "mean_signed_offset_V": 0.0133,
+    "n_included": 3,
+    "value_V": 0.1333
+  },
+  "rule_applied": "MAE = 0.1333 V; class boundaries PASS<0.15, FAIL>=0.30; uncertainty envelope [0.1283, 0.1383] V stays in one class",
+  "secondary": {
+    "mp_reference_decomposition": "not retrieved: the generator performs no network access by design, and no retrieval is recorded in the curation log; the registered fallback (omission with disclosure) applies. The decomposition is secondary and never verdict-deciding (registered section 3)",
+    "paper_experiment_labels_vs_anchors_note": "The paper's own experiment bars (LiFePO4 3.4, LiCoO2 3.9, LiMn2O4 4.0) differ from the committed Tier-A anchors (3.45, 4.0, 4.05) by 0.05 to 0.10 V; reference-choice scatter, recorded as context, never a verdict input.",
+    "unanchored_compounds_reported_not_judged": [
+      {
+        "compound": "LiNiO2",
+        "paper_experiment_label": 3.8,
+        "v_predicted": 3.85
+      },
+      {
+        "compound": "Li1.2Mn0.8O2",
+        "paper_experiment_label": 3.69,
+        "v_predicted": 3.66
+      },
+      {
+        "compound": "LiNi0.8Co0.1Mn0.1O2",
+        "paper_experiment_label": 3.75,
+        "v_predicted": 3.76
+      },
+      {
+        "compound": "LiNi0.8Co0.15Al0.05O2",
+        "paper_experiment_label": 3.8,
+        "v_predicted": 3.69
+      }
+    ]
+  },
+  "subject": {
+    "code_repository": "https://github.com/destiny1024/BatteryFormer",
+    "doi": "10.1021/jacsau.5c00526",
+    "model_name": "BatteryFormer",
+    "public_full_text": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12381736/",
+    "published": "2025-07-23",
+    "title": "A Universal Machine Learning Framework Driven by Artificial Intelligence for Ion Battery Cathode Material Design",
+    "venue": "JACS Au"
+  },
+  "uncertainty_check": {
+    "mae_high": 0.1383,
+    "mae_low": 0.1283,
+    "uncertainty_dominated": false
+  },
+  "verdict": "PASS",
+  "verdict_scope": "anchored subset only (n=3 of 7 Figure-6a compounds; see caveats_that_travel[0])"
+}

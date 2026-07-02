@@ -1,0 +1,26 @@
+{
+  "manifest_for": "external_audit_001",
+  "generator": "generator/audit_verdict.py",
+  "regeneration_command": "cd <instance-dir> && python3 generator/audit_verdict.py",
+  "sha256": {
+    "ENUMERATION_LOG.md": "666b4f0ca2f28b23b98a00d2dbd2d45c999f764a35c439113f933e816d17bfd1",
+    "PREREGISTRATION.md": "98a53e369d2b72d0979481927d240f2b3d181df914bc525238fef81e75c547cf",
+    "SELECTION_RULE.md": "71a56015d07308398d70a751bf89919ceb457af6708809688553d4616764d01d",
+    "artifact/verdict.json": "f8f2690e54a99abbfd87ed64d690cf6e4ae3d946f39c050c7de21d3bad7497e3",
+    "generator/audit_verdict.py": "ab3fdbbfe7aedebba99f72f8d41723d1e478e7b3b643900cfebcc22b6123ae92",
+    "inputs/curation_log.json": "bc6b815bc0916d2785374db316170c62c631dc6d2931fde4cd6bd15102c466f5",
+    "instance.json": "362bae9db9535ea3d488ede385f1ac237803af62e4694b0b525c3ce8a9a5474f"
+  },
+  "preregistration": {
+    "prereg_id": "external_audit_001",
+    "canonical_document": "PREREGISTRATION.md",
+    "registered_utc": "2026-07-02T21:24:54Z",
+    "commit": "ec8a2d5",
+    "selection_rule": "SELECTION_RULE.md (commit 5d2af6b, committed before enumeration)",
+    "enumeration_log": "ENUMERATION_LOG.md (commit 3337d7d)"
+  },
+  "captured_environment": {
+    "python": "3.13.13",
+    "platform": "macOS-26.5-arm64-arm-64bit-Mach-O"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "instance_id": "external_audit_001",
+  "kind": "external_audit",
+  "artifact": "artifact/verdict.json",
+  "generator": "generator/audit_verdict.py",
+  "inputs": [
+    "inputs/curation_log.json",
+    "PREREGISTRATION.md",
+    "SELECTION_RULE.md",
+    "ENUMERATION_LOG.md"
+  ],
+  "preregistration": {
+    "prereg_id": "external_audit_001",
+    "canonical_document": "PREREGISTRATION.md",
+    "registered_utc": "2026-07-02T21:24:54Z",
+    "commit": "ec8a2d5",
+    "selection_rule": "SELECTION_RULE.md (commit 5d2af6b, committed before enumeration)",
+    "enumeration_log": "ENUMERATION_LOG.md (commit 3337d7d)"
+  }
+}
