@@ -21,12 +21,17 @@ be checked.
 
 ## Status, stated plainly
 
-- **Registered instances: 0.** The registry is new. The first external audit is
-  in preparation, and the self-test proves the machinery on a synthetic fixture
-  until it lands.
+- **Registered instances: 1.**
+  [`external_audit_001`](instances/external_audit_001/): a blind,
+  pre-registered audit of an external published ML voltage claim
+  (BatteryFormer, JACS Au 2025), verdict **PASS** on the anchored subset
+  (MAE 0.1333 V, n = 3). The selection rule, enumeration log, and thresholds
+  were committed before the analysis ran; the verdict regenerates
+  byte-identically from the committed inputs.
 - Nothing in this registry is an endorsement, a novelty claim, or an
   experimental result. Computed voltages, where they appear, are reported in
   ranking-only language, and every artifact carries its reference-error caveats.
+  A PASS on an anchored subset is not a model-class judgment.
 
 ## What this registry is
 
@@ -55,12 +60,16 @@ instances. A referee that cannot fail its own side is not a referee.
 
 ## Submitting a claim
 
-Write a pre-registration conforming to the protocol schema
-([spec and schema](https://github.com/Krishnatejavepa/qme-paper-validation/tree/main/protocol))
-with all datapoints `pending`: a claim that arrives with its results already in
-hand is not a pre-registration, and intake refuses it. Submission instructions
-are in the companion repository's README under "Submitting a claim for
-validation".
+Three steps, no paper-reading required: copy
+[`funnel/claim.example.json`](funnel/claim.example.json), validate it locally
+with `python3 scripts/validate_claim.py my_claim.json`, and send it (reply to
+any QME email with it attached, or open a GitHub issue here). All datapoints
+stay `pending`: a claim that arrives with its results already in hand is not a
+pre-registration, and intake refuses it. Full instructions:
+[`funnel/README.md`](funnel/README.md).
+
+Certificates issued for validated claims are Ed25519-signed; verify one
+yourself against the published key in [`KEYS.md`](KEYS.md), no secret needed.
 
 ## License
 

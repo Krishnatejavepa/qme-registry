@@ -11,3 +11,9 @@ jobs:
         run: bash scripts/verify.sh
       - name: Self-test the machinery (incl. tamper detection)
         run: bash scripts/verify.sh --self-test
+      - name: Consistency sweep (front page vs artifacts; retired-claim guards)
+        run: python3 scripts/consistency_sweep.py
+      - name: Funnel self-check (committed example claim must validate)
+        run: |
+          pip install jsonschema
+          python3 scripts/validate_claim.py funnel/claim.example.json
