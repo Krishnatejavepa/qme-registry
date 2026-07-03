@@ -52,33 +52,34 @@ def schema_errors(doc: dict) -> list[str]:
 
 def admissibility_check(doc: dict) -> dict:
     """Protocol admissibility beyond raw schema validity. Mirrors the checks
-    in qme_battery_loop/src/validation_protocol.py, with one funnel-specific
-    hardening: datapoints_pre_result is REQUIRED here, not a warning, because
-    everything arriving through this funnel is a fresh external intake."""
+    in qme_battery_loop/src/validation_protocol.py (the mirror is behavior-
+    tested on QME's side), with one funnel-specific hardening, documented and
+    deliberate: datapoints_pre_result is a hard refusal here, not a warning,
+    because everything arriving through this funnel is a fresh external
+    intake. Every check below is required; there is no warning tier."""
     checks: list[dict] = []
 
-    def check(check_id: str, ok: bool, level: str, detail: str) -> None:
-        checks.append({"id": check_id, "ok": bool(ok), "level": level,
-                       "detail": detail})
+    def check(check_id: str, ok: bool, detail: str) -> None:
+        checks.append({"id": check_id, "ok": bool(ok), "detail": detail})
 
     errs = schema_errors(doc)
-    check("schema_valid", not errs, "required",
+    check("schema_valid", not errs,
           "; ".join(errs[:3]) if errs else "conforms to preregistration.schema.json")
 
     rules = {r.get("verdict") for r in doc.get("decision_rules", [])}
-    check("decision_rules_complete", {"PASS", "FAIL"} <= rules, "required",
+    check("decision_rules_complete", {"PASS", "FAIL"} <= rules,
           f"verdict rules present: {sorted(v for v in rules if v)}")
 
     claim_type = doc.get("claim", {}).get("claim_type")
     anchors = doc.get("anchors", [])
     if claim_type in ANCHORED_CLAIM_TYPES:
         anchored_ok = bool(anchors) and all(a.get("source") for a in anchors)
-        check("anchors_experimental", anchored_ok, "required",
+        check("anchors_experimental", anchored_ok,
               f"{len(anchors)} anchor(s), all with sources" if anchored_ok
               else "calibration/accuracy claims need experiment-anchored "
                    "references with sources")
     else:
-        check("anchors_experimental", True, "required",
+        check("anchors_experimental", True,
               f"not required for claim_type={claim_type!r}")
 
     spin = doc.get("method", {}).get("spin_states", {})
@@ -89,40 +90,40 @@ def admissibility_check(doc: dict) -> dict:
         and all("expected_total_magnetization_bohr" in s and s.get("literature_basis")
                 for s in per_structure)
     )
-    check("spin_states_documented", spin_ok, "required",
+    check("spin_states_documented", spin_ok,
           f"{len(per_structure)} structure(s) with literature manifolds")
 
     pol = doc.get("exclusion_policy", {})
     check("exclusions_locked",
           pol.get("sensitivity_analysis_required") is True
           and pol.get("silent_exclusion_forbidden") is True,
-          "required", "sensitivity analysis mandatory, silent exclusion forbidden")
+          "sensitivity analysis mandatory, silent exclusion forbidden")
 
     check("registered_before_results",
           doc.get("registration_evidence", {}).get("committed_before_results") is True,
-          "required", doc.get("registration_evidence", {}).get("canonical_document", ""))
+          doc.get("registration_evidence", {}).get("canonical_document", ""))
 
     negs = doc.get("negative_assertions", [])
-    check("negative_assertions_present", bool(negs), "required",
+    check("negative_assertions_present", bool(negs),
           f"{len(negs)} registered")
 
     statuses = {d.get("status") for d in doc.get("datapoints", [])}
     all_pending = bool(statuses) and statuses <= {"pending"}
-    check("datapoints_pre_result", all_pending, "required",
+    check("datapoints_pre_result", all_pending,
           "all datapoints pending (true pre-result intake)" if all_pending
           else "non-pending or missing datapoints: registration must precede "
                "results; a claim with results in hand is exactly what the "
                "protocol referees, and this funnel refuses it")
 
-    required_ok = all(c["ok"] for c in checks if c["level"] == "required")
-    return {"admissible": required_ok, "checks": checks}
+    return {"admissible": all(c["ok"] for c in checks), "checks": checks}
 
 
 def main(argv: list[str]) -> int:
     args = [a for a in argv if not a.startswith("--")]
     as_json = "--json" in argv
     if len(args) != 1:
-        print(__doc__.strip().splitlines()[3].strip(), file=sys.stderr)
+        print("usage: python3 scripts/validate_claim.py path/to/claim.json [--json]",
+              file=sys.stderr)
         return 2
     path = Path(args[0])
     if not path.exists():
